@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:46:05 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/17 16:06:47 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:44:18 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # include <libft.h>
 # include <stdio.h>
+# include "cub3D.h"
 
 void	check_args(int argc, char **argv);
-char	*read_file(char *path);
+char	*read_file(char *path, t_master *master);
+int     fill_map(char *str_map, t_master *master);
 
 #endif

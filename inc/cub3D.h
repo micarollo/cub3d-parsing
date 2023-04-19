@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:30:20 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/19 12:55:38 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:27:10 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ typedef struct s_player
 typedef struct s_master
 {
 	char 		**map;
+	char		*tex_no;
+	char		*tex_so;
+	char		*tex_ea;
+	char		*tex_we;
+	int			map_col;
+	int			map_row;
 	t_player 	player;
 }	t_master;
 

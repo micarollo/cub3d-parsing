@@ -6,7 +6,7 @@
 #    By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 18:20:34 by arebelo           #+#    #+#              #
-#    Updated: 2023/04/19 12:57:24 by mrollo           ###   ########.fr        #
+#    Updated: 2023/04/19 16:44:35 by mrollo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ BINARY				= cub3D
 SRCS				= main.c\
 					parsing/args_check.c\
 					parsing/read_file.c\
+					parsing/map.c\
 					free/clean_exit.c\
 					gnl/get_next_line.c
 

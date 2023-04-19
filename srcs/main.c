@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:28:21 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/19 12:57:48 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:43:41 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@
 
 int main(int argc, char **argv)
 {
-	// t_master	*master;
+	t_master	*master;
 
 	check_args(argc, argv);
-	read_file(argv[1]);
-	// master = ft_calloc(1, sizeof(t_master));
-	// if (!master)
-	// 	return (1);
+	master = ft_calloc(1, sizeof(t_master));
+	if (!master)
+		return (1);
+	read_file(argv[1], master);
 	// window_init(master);
     return (0);
 }
