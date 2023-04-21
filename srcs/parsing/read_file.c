@@ -143,6 +143,6 @@ char	*read_file(char *path, t_master *master)
 	master->map_row = count_row(str_map);
 	printf("ROWS: %d\n", master->map_row);
 	printf("COLS: %d\n", master->map_col);
-	fill_map(str_map, master);
+	create_map(master->map_row, master->map_col);
 	return (str_map);
 }
