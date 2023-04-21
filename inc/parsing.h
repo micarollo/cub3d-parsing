@@ -21,5 +21,6 @@ void	check_args(int argc, char **argv);
 char	*read_file(char *path, t_master *master);
 char    **create_map(int x, int y);
 int     fill_map(char *str_map, t_master *master);
+int     check_map(char **map, t_master *master);
 
 #endif

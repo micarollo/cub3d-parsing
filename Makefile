@@ -20,6 +20,7 @@ SRCS				= main.c\
 					parsing/args_check.c\
 					parsing/read_file.c\
 					parsing/map.c\
+					parsing/map_check.c\
 					free/clean_exit.c\
 					gnl/get_next_line.c
 

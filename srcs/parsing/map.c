@@ -26,7 +26,7 @@ void	*fill_with_spaces(char *str, int cols)
 
 	i = -1;
 	while (++i < cols)
-		str[i] = '.';
+		str[i] = ' ';
 	str[i] = '\0';
 }
 
@@ -78,5 +78,6 @@ int fill_map(char *str_map, t_master *master)
 		printf("*%s*\n", map[i]);
 		i++;
 	}
+	check_map(map, master);
 	return (0);
 }

@@ -99,7 +99,10 @@ int	check_line(char *line, t_master *master)
 			return (0);
 		}
 		else
-			printf("Algo que no es\n");
+		{
+			printf("Algo que no es, mapa mal?\n");
+			return (1);
+		}
 	}
 	return (0);
 }
