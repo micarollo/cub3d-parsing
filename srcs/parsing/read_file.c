@@ -52,10 +52,10 @@ int	ft_isspace(char *line)
 
 int	check_line(char *line, t_master *master)
 {
-	int	len;
+	// int	len;
 	int	i;
 
-	len = ft_strlen(line);
+	// len = ft_strlen(line);
 	i = 0;
 	if (!ft_isspace(line))
 		return (1);
@@ -143,6 +143,6 @@ char	*read_file(char *path, t_master *master)
 	master->map_row = count_row(str_map);
 	printf("ROWS: %d\n", master->map_row);
 	printf("COLS: %d\n", master->map_col);
-	create_map(master->map_row, master->map_col);
+	fill_map(str_map, master);
 	return (str_map);
 }

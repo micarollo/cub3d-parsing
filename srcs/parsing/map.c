@@ -13,8 +13,6 @@
 # include "parsing.h"
 # include "cub3D.h"
 
-
-
 // void free_matrix(char** matrix, int x) {
 //     for (int i = 0; i < x; i++) {
 //         free(matrix[i]);
@@ -44,30 +42,41 @@ char **create_map(int x, int y)
 	while (++i < x)
 	{
 		map[i] = (char*)calloc(y + 1, sizeof(char));
+		if (!map[i])
+			return (NULL); //clean_free
 		fill_with_spaces(map[i], y);
 		printf("*%s*\n", map[i]);
 	}
 	return (map);
 }
 
+void	fill_row(char *str, char *map_row)
+{
+	int	i;
 
-// int fill_map(char *str_map, t_master *master)
-// {
-// 	// char	**map;
-// 	char	**aux;
-// 	int		i;
-// 	int		j;
+	i = 0;
+	while (str[i])
+	{
+		map_row[i] = str[i];
+		i++;
+	}
+}
 
-// 	map = (char **)ft_calloc((master->map_row + 1), sizeof(char *));
-	
-	
-// 	// aux = ft_split(str_map, '\n');
-// 	// i = 0;
-// 	// printf("DESDE SPLIT:\n");
-// 	// while (i < master->map_row)
-// 	// {
-// 	// 	printf("%s\n", aux[i]);
-// 	// 	i++;
-// 	// }
-// 	return (0);
-// }
+int fill_map(char *str_map, t_master *master)
+{
+	char	**aux;
+	char	**map;
+	int		i;
+
+	map = create_map(master->map_row, master->map_col);
+	aux = ft_split(str_map, '\n'); //proteger
+	i = 0;
+	printf("\n\nFILLINGGG:\n");
+	while (i < master->map_row)
+	{
+		fill_row(aux[i], map[i]);
+		printf("*%s*\n", map[i]);
+		i++;
+	}
+	return (0);
+}
