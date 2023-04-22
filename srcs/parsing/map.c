@@ -13,12 +13,15 @@
 # include "parsing.h"
 # include "cub3D.h"
 
-// void free_matrix(char** matrix, int x) {
-//     for (int i = 0; i < x; i++) {
-//         free(matrix[i]);
-//     }
-//     free(matrix);
-// }
+void free_map(char** map)
+{
+	int	i;
+
+	i = -1;
+	while (map[++i])
+		free(map[i]);
+    free(map);
+}
 
 void	*fill_with_spaces(char *str, int cols)
 {
@@ -79,5 +82,6 @@ int fill_map(char *str_map, t_master *master)
 		i++;
 	}
 	check_map(map, master);
+	free_map(map);
 	return (0);
 }

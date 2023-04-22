@@ -31,18 +31,15 @@ int	check_map_col(char **map, int rows, int j)
 	return (0);
 }
 
-// int	check_round(char **map, int x, int y)
-// {
-// 	if (x == 0 && y == 0)
-// 	{
-// 		if (map[x][y + 1] != ' ' && map[x][y + 1] != '1')
-// 			return (1);
-// 		if (map[x + 1][y] != ' ' && map[x][y] != '1')
-// 			return (1);
-// 	}
-// 	if ()
-// 	return (0);
-// }
+int	check_round(char **map, int x, int y)
+{
+	if ((map[x][y - 1] == ' ' || map[x][y - 1] == '1')
+		&& (map[x][y + 1] == ' ' || map[x][y + 1] == '1')
+		&& (map[x + 1][y] == ' ' || map[x + 1][y] == '1')
+		&& (map[x - 1][y] == ' ' || map[x - 1][y] == '1'))
+			return (0);
+	return (1);
+}
 
 int	check_map(char **map, t_master *master)
 {
@@ -58,21 +55,23 @@ int	check_map(char **map, t_master *master)
 	if (check_map_col(map, master->map_row, (master->map_col - 1)))
 		printf("col ultima mal\n");
 
-	// i = 0;
-	// while (i < master->map_row)
-	// {
-	// 	j = 0;
-	// 	while (j < master->map_col)
-	// 	{
-	// 		if (map[i][j] == ' ')
-	// 		{
-	// 			if (check_round(map, i, j))
-	// 				printf("error\n");
-	// 			else
-	// 				j++;
-	// 		}
-	// 	}
-	// 	i++;
-	// }
+	i = 1;
+	while (i < master->map_row - 1)
+	{
+		j = 1;
+		while (j < master->map_col - 1)
+		{
+			if (map[i][j] == ' ')
+			{
+				if (check_round(map, i, j))
+				{
+					printf("not closed desde check\n");
+					return (1);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
 	return (0);
 }
