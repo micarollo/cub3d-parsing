@@ -33,6 +33,8 @@ typedef struct s_master
 	char		*tex_so;
 	char		*tex_ea;
 	char		*tex_we;
+	char		*color_c;
+	char		*color_f;
 	int			map_col;
 	int			map_row;
 	t_player 	player;

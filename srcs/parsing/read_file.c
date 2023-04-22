@@ -50,12 +50,24 @@ int	ft_isspace(char *line)
 	return (0);
 }
 
+void	tex_parse_aux(char a, char b, char *line, t_master *master)
+{
+	if (a == 'N' && b == 'O')
+		master->tex_no = tex_parse(line);
+	if (a == 'S' && b == 'O')
+		master->tex_so = tex_parse(line);
+	if (a == 'E' && b == 'A')
+		master->tex_ea = tex_parse(line);
+	if (a == 'W' && b == 'E')
+		master->tex_we = tex_parse(line);
+	// if (!master->tex_so || !master->tex_no || ...)
+	//		clean_free();
+}
+
 int	check_line(char *line, t_master *master)
 {
-	// int	len;
 	int	i;
 
-	// len = ft_strlen(line);
 	i = 0;
 	if (!ft_isspace(line))
 		return (1);
@@ -63,34 +75,42 @@ int	check_line(char *line, t_master *master)
 	{
 		while (line[i] == ' ' || line[i] == '\t')
 			i++;
-		if (line[i] == 'N' && line[i + 1] == 'O')
+		if ((line[i] == 'N' && line[i + 1] == 'O')
+			|| (line[i] == 'S' && line[i + 1] == 'O')
+			|| (line[i] == 'E' && line[i + 1] == 'A')
+			|| (line[i] == 'W' && line[i + 1] == 'E'))
 		{
-			// printf("NO\n");
+			tex_parse_aux(line[i], line[i + 1], line, master);
 			return (1);
 		}
-		if (line[i] == 'S' && line[i + 1] == 'O')
-		{
-			// printf("SO\n");
-			return (1);
-		}
-		if (line[i] == 'E' && line[i + 1] == 'A')
-		{
-			// printf("EA\n");
-			return (1);
-		}
-		if (line[i] == 'W' && line[i + 1] == 'E')
-		{
-			// printf("WE\n");
-			return (1);
-		}
+		// if (line[i] == 'N' && line[i + 1] == 'O')
+		// {
+		// 	master->tex_no = tex_parse(line);
+		// 	return (1);
+		// }
+		// if (line[i] == 'S' && line[i + 1] == 'O')
+		// {
+		// 	master->tex_so = tex_parse(line);
+		// 	return (1);
+		// }
+		// if (line[i] == 'E' && line[i + 1] == 'A')
+		// {
+		// 	master->tex_ea = tex_parse(line);
+		// 	return (1);
+		// }
+		// if (line[i] == 'W' && line[i + 1] == 'E')
+		// {
+		// 	master->tex_we = tex_parse(line);
+		// 	return (1);
+		// }
 		if (line[i] == 'C')
 		{
-			// printf("C\n");
+			master->color_c = ft_strdup(line);
 			return (1);
 		}
 		if (line[i] == 'F')
 		{
-			// printf("F\n");
+			master->color_f = ft_strdup(line);
 			return (1);
 		}
 		if (line[i] == '1')
@@ -142,10 +162,7 @@ char	*read_file(char *path, t_master *master)
 			}
 		}
 	}
-	printf("MAPA: \n%s\n", str_map);
 	master->map_row = count_row(str_map);
-	printf("ROWS: %d\n", master->map_row);
-	printf("COLS: %d\n", master->map_col);
 	fill_map(str_map, master);
 	return (str_map);
 }

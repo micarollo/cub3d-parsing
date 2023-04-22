@@ -21,6 +21,7 @@ SRCS				= main.c\
 					parsing/read_file.c\
 					parsing/map.c\
 					parsing/map_check.c\
+					parsing/textures.c\
 					free/clean_exit.c\
 					gnl/get_next_line.c
 

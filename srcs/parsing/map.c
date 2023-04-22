@@ -13,14 +13,17 @@
 # include "parsing.h"
 # include "cub3D.h"
 
-void free_map(char** map)
+void free_tab(char** tab)
 {
 	int	i;
 
 	i = -1;
-	while (map[++i])
-		free(map[i]);
-    free(map);
+	while (tab[++i])
+	{
+		if (tab[i])
+			free(tab[i]);
+	}
+    free(tab);
 }
 
 void	*fill_with_spaces(char *str, int cols)
@@ -48,7 +51,6 @@ char **create_map(int x, int y)
 		if (!map[i])
 			return (NULL); //clean_free
 		fill_with_spaces(map[i], y);
-		printf("*%s*\n", map[i]);
 	}
 	return (map);
 }
@@ -74,7 +76,7 @@ int fill_map(char *str_map, t_master *master)
 	map = create_map(master->map_row, master->map_col);
 	aux = ft_split(str_map, '\n'); //proteger
 	i = 0;
-	printf("\n\nFILLINGGG:\n");
+	printf("\nFILLINGGG:\n");
 	while (i < master->map_row)
 	{
 		fill_row(aux[i], map[i]);
@@ -82,6 +84,7 @@ int fill_map(char *str_map, t_master *master)
 		i++;
 	}
 	check_map(map, master);
-	free_map(map);
+	printf("text_so: %s\ntext_no: %s\ntext_ea: %s\ntext_we: %s\n", master->tex_so, master->tex_no, master->tex_ea, master->tex_we);
+	free_tab(map);
 	return (0);
 }
