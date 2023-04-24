@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:17:28 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/24 13:19:04 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 16:10:08 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	fill_row(char *str, char *map_row)
 	}
 }
 
-int fill_map(char *str_map, t_data *data)
+int fill_map(t_data *data)
 {
 	char	**aux;
 	int		i;
@@ -78,19 +78,15 @@ int fill_map(char *str_map, t_data *data)
 	data->map = create_map(data->map_row, data->map_col);
 	if (!data->map)
 		return (1);
-	aux = ft_split(str_map, '\n');
+	aux = ft_split(data->str_map, '\n');
 	if (!aux)
 	{
 		free_tab(data->map);
 		return (1);
 	}
-	i = 0;
-	while (i < data->map_row)
-	{
+	i = -1;
+	while (++i < data->map_row)
 		fill_row(aux[i], data->map[i]);
-		// printf("*%s*\n", data->map[i]);
-		i++;
-	}
 	if (check_map(data->map, data))
 	{
 		free_tab(data->map);

@@ -46,14 +46,6 @@ int	check_map(char **map, t_data *data)
 	int	i;
 	int	j;
 
-	// if (check_map_row(map[0], master->map_col))
-	// 	printf("row 1 mal\n");
-	// if (check_map_row(map[master->map_row - 1], master->map_col))
-	// 	printf("row ultima mal\n");
-	// if (check_map_col(map, master->map_row, 0))
-	// 	printf("col 1 mal\n");
-	// if (check_map_col(map, master->map_row, (master->map_col - 1)))
-	// 	printf("col ultima mal\n");
 	if (check_map_row(map[0], data->map_col)
 		|| check_map_row(map[data->map_row - 1], data->map_col)
 		|| check_map_col(map, data->map_row, 0)
@@ -62,11 +54,11 @@ int	check_map(char **map, t_data *data)
 		printf("The map is not closed\n");
 		return (1);
 	}
-	i = 1;
-	while (i < data->map_row - 1)
+	i = 0;
+	while (++i < data->map_row - 1)
 	{
-		j = 1;
-		while (j < data->map_col - 1)
+		j = 0;
+		while (++j < data->map_col - 1)
 		{
 			if (map[i][j] == ' ')
 			{
@@ -76,9 +68,7 @@ int	check_map(char **map, t_data *data)
 					return (1);
 				}
 			}
-			j++;
 		}
-		i++;
 	}
 	return (0);
 }

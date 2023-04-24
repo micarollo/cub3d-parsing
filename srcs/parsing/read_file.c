@@ -6,20 +6,13 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:55:52 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/24 13:28:50 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 15:49:07 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 # include "get_next_line.h"
 # include "parsing.h"
-
-int	check_textures(t_data *data)
-{
-	if (!data->tex_ea || !data->tex_no || !data->tex_so || !data->tex_we)
-		return (1);
-	return (0);
-}
 
 int	count_row(char *str_map)
 {
@@ -75,18 +68,6 @@ int	color_parse(char *line, char a, t_data *data)
 		}
 	}
 	return (0);
-}
-
-void	free_str(char *s1, char *s2, char *s3, char *s4)
-{
-	if (s1)
-		free (s1);
-	if (s2)
-		free (s2);
-	if (s3)
-		free (s3);
-	if (s4)
-		free (s4);
 }
 
 void	tex_parse_aux(char a, char b, char *line, t_data *data)
@@ -182,12 +163,12 @@ char	*read_file(char *path, t_data *data)
 		}
 	}
 	data->map_row = count_row(str_map);
-	if (check_textures(data))
-	{
-		free (str_map);
-		return (NULL);
-	}
-	if (fill_map(str_map, data))
-		return (NULL);
+	// if (check_textures(data))
+	// {
+	// 	free (str_map);
+	// 	return (NULL);
+	// }
+	// if (fill_map(str_map, data))
+	// 	return (NULL);
 	return (str_map);
 }

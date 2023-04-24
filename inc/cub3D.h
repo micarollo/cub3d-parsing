@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:30:20 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/24 13:28:57 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:39:18 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 typedef struct s_data
 {
+	char		*str_map;
 	char 		**map;
 	char		*tex_no;
 	char		*tex_so;
