@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:49:18 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/24 16:10:26 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 16:14:03 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ int parse(char *path, t_data *data)
 	}
 	if (fill_map(data))
 		return (1);
+	return (0);
 }
