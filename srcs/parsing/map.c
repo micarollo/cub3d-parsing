@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:17:28 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/19 17:48:53 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:19:04 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,16 @@ char **create_map(int x, int y)
 
 	map = (char **)ft_calloc((x + 1), sizeof(char *));
 	if (!map)
-		return (NULL); //clean_free
+		return (NULL);
 	i = -1;
 	while (++i < x)
 	{
 		map[i] = (char*)calloc(y + 1, sizeof(char));
 		if (!map[i])
-			return (NULL); //clean_free
+		{
+			free_tab(map);
+			return (NULL);
+		}
 		fill_with_spaces(map[i], y);
 	}
 	return (map);
@@ -67,24 +70,35 @@ void	fill_row(char *str, char *map_row)
 	}
 }
 
-int fill_map(char *str_map, t_master *master)
+int fill_map(char *str_map, t_data *data)
 {
 	char	**aux;
-	char	**map;
 	int		i;
 
-	map = create_map(master->map_row, master->map_col);
-	aux = ft_split(str_map, '\n'); //proteger
-	i = 0;
-	printf("\nFILLINGGG:\n");
-	while (i < master->map_row)
+	data->map = create_map(data->map_row, data->map_col);
+	if (!data->map)
+		return (1);
+	aux = ft_split(str_map, '\n');
+	if (!aux)
 	{
-		fill_row(aux[i], map[i]);
-		printf("*%s*\n", map[i]);
+		free_tab(data->map);
+		return (1);
+	}
+	i = 0;
+	while (i < data->map_row)
+	{
+		fill_row(aux[i], data->map[i]);
+		// printf("*%s*\n", data->map[i]);
 		i++;
 	}
-	check_map(map, master);
-	printf("text_so: %s\ntext_no: %s\ntext_ea: %s\ntext_we: %s\n", master->tex_so, master->tex_no, master->tex_ea, master->tex_we);
-	free_tab(map);
+	if (check_map(data->map, data))
+	{
+		free_tab(data->map);
+		free_tab(aux);
+		return (1);
+	}
+	printf("text_so: %s\ntext_no: %s\ntext_ea: %s\ntext_we: %s\n", data->tex_so, data->tex_no, data->tex_ea, data->tex_we);
+	printf("F: %s\nC: %s\n", data->color_f, data->color_c);
+	free_tab(aux);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:28:21 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/19 16:43:41 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:19:25 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int main(int argc, char **argv)
 	master = ft_calloc(1, sizeof(t_master));
 	if (!master)
 		return (1);
-	read_file(argv[1], master);
+	if (!read_file(argv[1], &master->data))
+		return (1); //clean_free
 	// window_init(master);
     return (0);
 }

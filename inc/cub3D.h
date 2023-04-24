@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:30:20 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/19 16:27:10 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:28:57 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,7 @@
 # include <math.h>
 # include "stdio.h"
 
-typedef struct s_player
-{
-	float	px;
-	float	py;
-}	t_player;
-
-typedef struct s_master
+typedef struct s_data
 {
 	char 		**map;
 	char		*tex_no;
@@ -37,6 +31,17 @@ typedef struct s_master
 	char		*color_f;
 	int			map_col;
 	int			map_row;
+}	t_data;
+
+typedef struct s_player
+{
+	float	px;
+	float	py;
+}	t_player;
+
+typedef struct s_master
+{
+	t_data		data;
 	t_player 	player;
 }	t_master;
 

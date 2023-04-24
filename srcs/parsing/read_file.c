@@ -6,13 +6,20 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:55:52 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/19 17:48:34 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/24 13:28:50 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 # include "get_next_line.h"
 # include "parsing.h"
+
+int	check_textures(t_data *data)
+{
+	if (!data->tex_ea || !data->tex_no || !data->tex_so || !data->tex_we)
+		return (1);
+	return (0);
+}
 
 int	count_row(char *str_map)
 {
@@ -50,21 +57,51 @@ int	ft_isspace(char *line)
 	return (0);
 }
 
-void	tex_parse_aux(char a, char b, char *line, t_master *master)
+int	color_parse(char *line, char a, t_data *data)
 {
-	if (a == 'N' && b == 'O')
-		master->tex_no = tex_parse(line);
-	if (a == 'S' && b == 'O')
-		master->tex_so = tex_parse(line);
-	if (a == 'E' && b == 'A')
-		master->tex_ea = tex_parse(line);
-	if (a == 'W' && b == 'E')
-		master->tex_we = tex_parse(line);
-	// if (!master->tex_so || !master->tex_no || ...)
-	//		clean_free();
+	if (a == 'C')
+	{
+		data->color_c = tex_parse(line);
+		if (check_color(data->color_c))
+			return (1);
+	}
+	if (a == 'F')
+	{
+		data->color_f = tex_parse(line);
+		if (check_color(data->color_f))
+		{
+			free (data->color_c);
+			return (1);
+		}
+	}
+	return (0);
 }
 
-int	check_line(char *line, t_master *master)
+void	free_str(char *s1, char *s2, char *s3, char *s4)
+{
+	if (s1)
+		free (s1);
+	if (s2)
+		free (s2);
+	if (s3)
+		free (s3);
+	if (s4)
+		free (s4);
+}
+
+void	tex_parse_aux(char a, char b, char *line, t_data *data)
+{
+	if (a == 'N' && b == 'O')
+		data->tex_no = tex_parse(line);
+	if (a == 'S' && b == 'O')
+		data->tex_so = tex_parse(line);
+	if (a == 'E' && b == 'A')
+		data->tex_ea = tex_parse(line);
+	if (a == 'W' && b == 'E')
+		data->tex_we = tex_parse(line);
+}
+
+int	check_line(char *line, t_data *data)
 {
 	int	i;
 
@@ -80,67 +117,44 @@ int	check_line(char *line, t_master *master)
 			|| (line[i] == 'E' && line[i + 1] == 'A')
 			|| (line[i] == 'W' && line[i + 1] == 'E'))
 		{
-			tex_parse_aux(line[i], line[i + 1], line, master);
+			tex_parse_aux(line[i], line[i + 1], line, data); //lo chequeo en read_file
 			return (1);
 		}
-		// if (line[i] == 'N' && line[i + 1] == 'O')
-		// {
-		// 	master->tex_no = tex_parse(line);
-		// 	return (1);
-		// }
-		// if (line[i] == 'S' && line[i + 1] == 'O')
-		// {
-		// 	master->tex_so = tex_parse(line);
-		// 	return (1);
-		// }
-		// if (line[i] == 'E' && line[i + 1] == 'A')
-		// {
-		// 	master->tex_ea = tex_parse(line);
-		// 	return (1);
-		// }
-		// if (line[i] == 'W' && line[i + 1] == 'E')
-		// {
-		// 	master->tex_we = tex_parse(line);
-		// 	return (1);
-		// }
-		if (line[i] == 'C')
+		if (line[i] == 'C' || line[i] == 'F')
 		{
-			master->color_c = ft_strdup(line);
-			return (1);
-		}
-		if (line[i] == 'F')
-		{
-			master->color_f = ft_strdup(line);
+			if (color_parse(line, line[i], data))
+			{
+				printf("Color error\n");
+				return (2);
+			}
 			return (1);
 		}
 		if (line[i] == '1')
-		{
-			// printf("es mapa\n");
 			return (0);
-		}
 		else
 		{
-			printf("Algo que no es, mapa mal?\n");
+			printf("Error, map not closed?\n");
 			return (1);
 		}
 	}
 	return (0);
 }
 
-char	*read_file(char *path, t_master *master)
+char	*read_file(char *path, t_data *data)
 {
     int		fd;
 	char	*line;
 	int		exit;
 	char	*str_map;
 	int	len;
+	int	chk;
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		printf("Cannot read the map\n");
 	line = NULL;
 	exit = 0;
-	master->map_col = 0;
+	data->map_col = 0;
 	str_map = NULL;
 	while (!exit)
 	{
@@ -149,20 +163,31 @@ char	*read_file(char *path, t_master *master)
 			exit = 1;
 		else
 		{
-            // printf("%s", line);
-			if (check_line(line, master))
+			chk = check_line(line, data);
+			if (chk == 1)
 				free (line);
+			else if (chk == 2)
+			{
+				free (line);
+				return (NULL);
+			}
 			else
 			{
 				len = ft_strlen(line) - 1;
-				if (len > master->map_col)
-					master->map_col = len;
+				if (len > data->map_col)
+					data->map_col = len;
 				str_map = ft_strjoin(str_map, line); //join_free
 				free (line);
 			}
 		}
 	}
-	master->map_row = count_row(str_map);
-	fill_map(str_map, master);
+	data->map_row = count_row(str_map);
+	if (check_textures(data))
+	{
+		free (str_map);
+		return (NULL);
+	}
+	if (fill_map(str_map, data))
+		return (NULL);
 	return (str_map);
 }

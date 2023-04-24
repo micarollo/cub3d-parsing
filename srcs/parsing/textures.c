@@ -1,6 +1,32 @@
 #include "cub3D.h"
 #include "parsing.h"
 
+int	check_color(char *str)
+{
+	char	**aux;
+	int		n;
+	int		i;
+
+	aux = ft_split(str, ',');
+	if (!aux)
+		return (1); // que hago!!??
+	i = 0;
+	while (i < 3)
+	{
+		n = ft_atoi(aux[i]);
+		if (n >= 0 && n <= 255)
+			i++;
+		else
+		{
+			free_tab(aux);
+			return (1);
+		}
+	}
+	free_tab(aux);
+	return (0);
+	
+}
+
 char	*tab_to_space(char *str)
 {
 	int	i;
@@ -18,7 +44,6 @@ char	*tex_parse(char *str)
 {
 	char	**tab;
 	char	*new;
-	// int	i;
 
 	str = tab_to_space(str);
 	tab = ft_split(str, ' ');
@@ -26,21 +51,10 @@ char	*tex_parse(char *str)
 		return (NULL); //manejar en la otra funcion
 	new = ft_strdup(tab[1]);
 	if (!new)
+	{
+		free_tab(tab);
 		return (NULL); //manejar en la otra funcion
-	// new = '\0';
-	// i = -1;
-	// while (tab[++i])
-	// {
-	// 	new = ft_strjoin(new, tab[i]);
-	// 	if (!new)
-	// 		return (NULL); //QUE HAGOOOOOO
-	// 	if (i == 0)
-	// 	{
-	// 		new = ft_strjoin(new, " ");
-	// 		if (!new)
-	// 			return (NULL); //QUE HAGOOOOOO
-	// 	}
-	// }
+	}
 	free_tab(tab);
 	return (new);
 }
