@@ -6,30 +6,50 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:49:18 by mrollo            #+#    #+#             */
-/*   Updated: 2023/04/24 16:14:03 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/26 15:02:28 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3D.h"
 # include "parsing.h"
 
-void	free_data(t_data *data)
+void	error_control(char *msj)
 {
-	if (data->str_map)
-		free (data->str_map);
-	if (data->tex_ea)
-		free (data->tex_ea);
-	if (data->tex_no)
-		free (data->tex_no);
-	if (data->tex_so)
-		free (data->tex_so);
-	if (data->tex_we)
-		free (data->tex_we);
-	if (data->color_c)
-		free (data->color_c);
-	if (data->color_f)
-		free (data->color_f);
-	free_tab(data->map);
+	write(1, "Error\n", 6);
+	ft_putstr_fd(msj, 1);
+}
+
+int	check_content(char *str_map)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str_map[i])
+	{
+		if (str_map[i] == '0' || str_map[i] == '1'
+			|| str_map[i] == ' ' || str_map[i] == '\n')
+			i++;
+		else if (str_map[i] == 'N' || str_map[i] == 'S'
+			|| str_map[i] == 'W' || str_map[i] == 'E')
+		{
+			count++;
+			i++;
+		}
+		else
+		{
+			error_control("Your map has a wrong character\n");
+			printf("CHAR: %c\n", str_map[i]);
+			return (1);
+		}
+	}
+	if (count > 1)
+	{
+		error_control("Only 1 initial position\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	open_close(char *path)
@@ -58,10 +78,12 @@ int	check_textures(t_data *data)
 
 int parse(char *path, t_data *data)
 {
-    data->str_map = read_file(path, data);
-    if (!data->str_map)
-        return (1);
-    if (check_textures(data))
+	data->str_map = read_file(path, data);
+	if (!data->str_map)
+		return (1);
+	if (check_content(data->str_map))
+		return (1);
+	if (check_textures(data))
 	{
 		free (data->str_map);
 		return (1);
