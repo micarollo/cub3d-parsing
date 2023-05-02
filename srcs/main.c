@@ -12,6 +12,7 @@
 
 #include "cub3D.h"
 #include "parsing.h"
+#include "free.h"
 
 /**
  * Opens a windows of a predefined size
@@ -36,14 +37,12 @@ int main(int argc, char **argv)
 {
 	t_master	*master;
 
-	check_args(argc, argv);
 	master = ft_calloc(1, sizeof(t_master));
 	if (!master)
 		return (1);
-	if (parse(argv[1], &master->data))
-		printf("Error parse\n");
-	// read_file(argv[1], &master->data); //hacer una funcionar parse que llame a read_line y guarde str_map
+	// read_file(argv[1], master);
 	// window_init(master);
-	system("leaks cub3D");
+	check_args(argc, argv, master);
+	clean_exit(master);
     return (0);
 }
