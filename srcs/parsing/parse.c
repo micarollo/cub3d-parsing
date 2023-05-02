@@ -67,7 +67,7 @@ int	check_textures(t_map *map)
 {
 	if (!map->tex_ea || !map->tex_no || !map->tex_so || !map->tex_we)
 	{
-		error_control("Texture error\n");
+		error_control("Texture error or missing\n");
 		return (1);
 	}
 	// if (open_close(map->tex_ea) || open_close(map->tex_no)
@@ -110,7 +110,7 @@ int	parse(char *path, t_map *map)
 		return (1);
 	if (!map->color_c || !map->color_f)
 	{
-		error_control("Error color\n");
+		error_control("Missing color\n");
 		return (1);
 	}
 	if (check_content(map->str_map))

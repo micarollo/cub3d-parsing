@@ -142,6 +142,11 @@ char	*clean_color(char *str)
 		else
 			i++;
 	}
+	if (ft_strlen(color) < 1)
+	{
+		free(color);
+		return (NULL);
+	}
 	return (color);
 }
 

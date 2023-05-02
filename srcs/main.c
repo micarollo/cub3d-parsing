@@ -43,6 +43,7 @@ int main(int argc, char **argv)
 	// read_file(argv[1], master);
 	// window_init(master);
 	check_args(argc, argv, master);
-	clean_exit(master);
+	printf("TODO OK!!\n");
+	// clean_exit(master);
     return (0);
 }

@@ -113,8 +113,7 @@ int	check_line(char *line, t_map *map)
 		{
 			if (color_parse(line, line[i], map))
 			{
-				printf("ENTRO AQUI");
-				error_control("Color not valid\n");
+				error_control("Color not valid or missing color\n");
 				return (2);
 			}
 			return (1);
