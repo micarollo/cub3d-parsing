@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:46:05 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/24 15:53:23 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/04/19 16:44:18 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@
 # include <stdio.h>
 # include "cub3D.h"
 
-void	check_args(int argc, char **argv);
-int     parse(char *path, t_data *data);
-char	*read_file(char *path, t_data *data);
-char    **create_map(int x, int y);
-int     fill_map(t_data *data);
-int     check_map(char **map, t_data *data);
+void	check_args(int argc, char **argv, t_master *master);
+int		parse(char *path, t_map *map);
+char	*read_file(char *path, t_map *map);
+char	**create_map(int x, int y);
+int		fill_map(t_map *map);
+int		check_map(char **mtx, t_map *map);
 char	*tex_parse(char *str);
-int	    check_color(char *str);
-void    free_tab(char** tab);
-void	free_data(t_data *data);
+int		*color_arr(char *line);
+int	    *parse_color_array(char *str);
+int		check_color(int *arr);
+void	free_tab(char** tab);
+void	error_control(char *msj);
 
 #endif
