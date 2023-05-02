@@ -24,6 +24,7 @@ SRCS				= main.c\
 					parsing/map_check.c\
 					parsing/textures.c\
 					free/clean_exit.c\
+					utils/join_free.c\
 					gnl/get_next_line.c
 
 MK					= Makefile
