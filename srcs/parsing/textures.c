@@ -127,6 +127,8 @@ char	*clean_color(char *str)
 		i++;
 	}
 	color = (char *)ft_calloc(count + 1, sizeof(char));
+	if (!color)
+		return (NULL);
 	i = 0;
 	count = 0;
 	while (str[i])
@@ -148,25 +150,34 @@ int	*parse_color_array(char *line)
 	char	**tab;
 	int		*color;
 	int		i;
-	char	*str;
 	char	*clean;
 
 	line = tab_to_space(line);
-	// printf("line: %s\n", line);
 	clean = clean_color(line);
-	printf("clean_line: [%s]\n", clean);
-	tab = ft_split(line, ' ');
-	if (!tab)
+	if (!clean)
 		return (NULL);
+	// printf("clean_line: [%s]\n", clean);
+	tab = ft_split(clean, ',');
+	if (!tab)
+	{
+		free (clean);
+		return (NULL);
+	}
+	free(clean);
 	color = (int *)ft_calloc(4, sizeof(int));
-	i = 0;
+	if (!color)
+	{
+		free (clean);
+		free_tab(tab);
+		return (NULL);
+	}
+	i = -1;
 	while (tab[++i])
 	{
-		str = ft_strtrim(tab[i], ",");
-		// if (check_number(str))
+		// if (check_number(tab[i]))
 		// 	return (NULL);
-		color[i] = ft_atoi(str);
-		free (str);
+		color[i] = ft_atoi(tab[i]);
+		// printf("color[%d]: %d\n", i, color[i]);
 	}
 	free_tab(tab);
 	return (color);
