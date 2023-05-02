@@ -10,10 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "parsing.h"
-# include "cub3D.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 16:17:28 by mrollo            #+#    #+#             */
+/*   Updated: 2023/04/19 17:48:53 by mrollo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void free_tab(char** tab)
+#include "parsing.h"
+#include "cub3D.h"
+
+void	free_tab(char **tab)
 {
 	int	i;
 
@@ -23,10 +35,10 @@ void free_tab(char** tab)
 		if (tab[i])
 			free(tab[i]);
 	}
-    free(tab);
+	free(tab);
 }
 
-void	*fill_with_spaces(char *str, int cols)
+void	fill_with_spaces(char *str, int cols)
 {
 	int	i;
 
@@ -36,7 +48,7 @@ void	*fill_with_spaces(char *str, int cols)
 	str[i] = '\0';
 }
 
-char **create_map(int x, int y)
+char	**create_map(int x, int y)
 {
 	char	**map;
 	int		i;
@@ -47,7 +59,7 @@ char **create_map(int x, int y)
 	i = -1;
 	while (++i < x)
 	{
-		map[i] = (char*)calloc(y + 1, sizeof(char));
+		map[i] = (char *)calloc(y + 1, sizeof(char));
 		if (!map[i])
 		{
 			free_tab(map);
@@ -58,43 +70,41 @@ char **create_map(int x, int y)
 	return (map);
 }
 
-void	fill_row(char *str, char *map_row)
+void	fill_row(char *str, char *nb_rows)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		map_row[i] = str[i];
+		nb_rows[i] = str[i];
 		i++;
 	}
 }
 
-int fill_map(t_data *data)
+int	fill_map(t_map *map)
 {
 	char	**aux;
 	int		i;
 
-	data->map = create_map(data->map_row, data->map_col);
-	if (!data->map)
+	map->mtx = create_map(map->nb_rows, map->nb_cols);
+	if (!map->mtx)
 		return (1);
-	aux = ft_split(data->str_map, '\n');
+	aux = ft_split(map->str_map, '\n');
 	if (!aux)
 	{
-		free_tab(data->map);
+		free_tab(map->mtx);
 		return (1);
 	}
 	i = -1;
-	while (++i < data->map_row)
-		fill_row(aux[i], data->map[i]);
-	if (check_map(data->map, data))
+	while (++i < map->nb_rows)
+		fill_row(aux[i], map->mtx[i]);
+	if (check_map(map->mtx, map))
 	{
-		free_tab(data->map);
+		free_tab(map->mtx);
 		free_tab(aux);
 		return (1);
 	}
-	// printf("text_so: %s\ntext_no: %s\ntext_ea: %s\ntext_we: %s\n", data->tex_so, data->tex_no, data->tex_ea, data->tex_we);
-	// printf("F: %s\nC: %s\n", data->color_f, data->color_c);
 	free_tab(aux);
 	return (0);
 }

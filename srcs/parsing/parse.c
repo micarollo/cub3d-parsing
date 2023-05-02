@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3D.h"
-# include "parsing.h"
+#include "cub3D.h"
+#include "parsing.h"
 
 void	error_control(char *msj)
 {
@@ -63,32 +63,62 @@ int	open_close(char *path)
 	return (0);
 }
 
-int	check_textures(t_data *data)
+int	check_textures(t_map *map)
 {
-	if (!data->tex_ea || !data->tex_no || !data->tex_so || !data->tex_we)
+	if (!map->tex_ea || !map->tex_no || !map->tex_so || !map->tex_we)
+	{
+		error_control("Texture error\n");
 		return (1);
-	// if (open_close(data->tex_ea)|| open_close(data->tex_no)
-	// 	|| open_close(data->tex_so) || open_close(data->tex_we))
+	}
+	// if (open_close(map->tex_ea) || open_close(map->tex_no)
+	// 	|| open_close(map->tex_so) || open_close(map->tex_we))
 	// {
-	// 	printf("no abre el archivo\n");
+	// 	error_control("Can't open file\n");
 	// 	return (1);
 	// }
 	return (0);
 }
 
-int parse(char *path, t_data *data)
+void	save_ini_pos(t_map *map)
 {
-	data->str_map = read_file(path, data);
-	if (!data->str_map)
-		return (1);
-	if (check_content(data->str_map))
-		return (1);
-	if (check_textures(data))
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < map->nb_rows)
 	{
-		free (data->str_map);
+		j = 0;
+		while (j < map->nb_cols)
+		{
+			if (map->mtx[i][j] == 'N' || map->mtx[i][j] == 'S'
+				|| map->mtx[i][j] == 'E' || map->mtx[i][j] == 'W')
+			{
+				map->view = map->mtx[i][j];
+				map->px = j;
+				map->py = i;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	parse(char *path, t_map *map)
+{
+	map->str_map = read_file(path, map);
+	if (!map->str_map)
+		return (1);
+	if (!map->color_c || !map->color_f)
+	{
+		error_control("Error color\n");
 		return (1);
 	}
-	if (fill_map(data))
+	if (check_content(map->str_map))
 		return (1);
+	if (check_textures(map))
+		return (1);
+	if (fill_map(map))
+		return (1);
+	save_ini_pos(map);
 	return (0);
 }

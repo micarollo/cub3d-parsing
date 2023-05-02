@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "free.h"
 
 /**
  * Checks is file extension is .cub
@@ -37,7 +38,7 @@ static void	check_file_extension(char *file_name)
  * Checks the program only receives one argument and that is a .cub file
  * Exits with 1 if not
 */
-void	check_args(int argc, char **argv)
+void	check_args(int argc, char **argv, t_master *master)
 {
 	if (argc != 2)
 	{
@@ -45,4 +46,6 @@ void	check_args(int argc, char **argv)
 		exit (1);
 	}
 	check_file_extension(argv[1]);
+	if (parse(argv[1], &master->map))
+		clean_exit(master);
 }
