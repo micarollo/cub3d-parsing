@@ -31,6 +31,13 @@ int	check_nb_cols(char **map, int rows, int j)
 	return (0);
 }
 
+int	check_round_2(char **map, int x, int y)
+{
+	if ((map[x][y - 1] == ' ') || (map[x][y + 1] == ' ') || (map[x + 1][y] == ' ') || (map[x - 1][y] == ' '))
+		return (1);
+	return (0);
+}
+
 int	check_round(char **map, int x, int y)
 {
 	if ((map[x][y - 1] == ' ' || map[x][y - 1] == '1')
@@ -63,6 +70,14 @@ int	check_map(char **mtx, t_map *map)
 			if (mtx[i][j] == ' ')
 			{
 				if (check_round(mtx, i, j))
+				{
+					printf("not closed desde check\n"); //cambiar x error_msj
+					return (1);
+				}
+			}
+			if (mtx[i][j] == '0')
+			{
+				if (check_round_2(mtx, i, j))
 				{
 					printf("not closed desde check\n");
 					return (1);
