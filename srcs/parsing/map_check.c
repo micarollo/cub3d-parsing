@@ -71,7 +71,7 @@ int	check_map(char **mtx, t_map *map)
 			{
 				if (check_round(mtx, i, j))
 				{
-					printf("not closed desde check\n"); //cambiar x error_msj
+					error_control("The map has to be closed\n"); //cambiar x error_msj
 					return (1);
 				}
 			}
@@ -79,7 +79,7 @@ int	check_map(char **mtx, t_map *map)
 			{
 				if (check_round_2(mtx, i, j))
 				{
-					printf("not closed desde check\n");
+					error_control("The map has to be closed\n");
 					return (1);
 				}
 			}
