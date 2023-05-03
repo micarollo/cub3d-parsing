@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:28:21 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/26 14:55:29 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/03 12:33:23 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int main(int argc, char **argv)
 	// window_init(master);
 	check_args(argc, argv, master);
 	printf("TODO OK!!\n");
-	// clean_exit(master);
+	clean_exit(master);
     return (0);
 }
