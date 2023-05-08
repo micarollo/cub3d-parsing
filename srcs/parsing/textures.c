@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:16:16 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/08 13:54:49 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 15:29:36 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ int	tab_len(char **tab)
 	return (i);
 }
 
+int	tex_check_name(char *str)
+{
+	if (ft_strcmp(str, "NO") != 0 && ft_strcmp(str, "SO") != 0
+		&& ft_strcmp(str, "EA") != 0 && ft_strcmp(str, "WE") != 0)
+	{
+		error_control("Texture name not correct\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	tex_len_check(char **tab)
 {
 	int	len;
@@ -60,7 +71,7 @@ char	*tex_parse(char *str)
 	tab = ft_split(str, ' ');
 	if (!tab)
 		return (NULL);
-	if (tex_len_check(tab))
+	if (tex_len_check(tab) || tex_check_name(tab[0]))
 		return (NULL);
 	new = ft_strtrim(tab[1], "\n");
 	if (!new)
