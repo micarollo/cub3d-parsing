@@ -6,7 +6,7 @@
 #    By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/27 18:20:34 by arebelo           #+#    #+#              #
-#    Updated: 2023/04/24 13:49:59 by mrollo           ###   ########.fr        #
+#    Updated: 2023/05/08 12:11:09 by mrollo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,10 @@ SRCS				= main.c\
 					parsing/read_file.c\
 					parsing/map.c\
 					parsing/map_check.c\
+					parsing/check_rows_cols.c\
 					parsing/textures.c\
+					parsing/aux.c\
+					parsing/clean_color.c\
 					free/clean_exit.c\
 					utils/join_free.c\
 					gnl/get_next_line.c

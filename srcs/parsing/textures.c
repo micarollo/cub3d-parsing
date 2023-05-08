@@ -1,55 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 19:16:16 by mrollo            #+#    #+#             */
+/*   Updated: 2023/05/08 12:10:45 by mrollo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 #include "parsing.h"
-
-int	check_color(int *arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		if (arr[i] >= 0 && arr[i] <= 255)
-			i++;
-		else
-			return (1);
-	}
-	return (0);
-}
-
-int	*color_arr(char *line)
-{
-	char	*str_color;
-	char	**aux;
-	int		*color;
-	int		i;
-
-	str_color = tex_parse(line);
-	printf("str_color: %s\n", str_color);
-	if (!str_color)
-		return (NULL);
-	aux = ft_split(str_color, ',');
-	if (!aux)
-	{
-		free (str_color);
-		return (NULL);
-	}
-	free (str_color);
-	color = (int *)ft_calloc(4, sizeof(int));
-	if (!color)
-	{
-		free_tab(aux);
-		return (NULL);
-	}
-	i = -1;
-	while (++i < 4)
-	{
-		printf("aux[%d]: %s\n", i, aux[i]);
-		color[i] = ft_atoi(aux[i]);
-		printf("color[%d]: %d\n", i, color[i]);
-	}
-	free_tab(aux);
-	return (color);
-}
 
 char	*tab_to_space(char *str)
 {
@@ -83,70 +45,34 @@ char	*tex_parse(char *str)
 	return (new);
 }
 
-// int	check_number(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		printf("c: [%c]\n", str[i]);
-// 		if (ft_isdigit(str[i]))
-// 			i++;
-// 		else
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-// char	*color_trim(char *str)
-// {
-// 	int	len;
-// 	char	*color;
-
-// 	len = ft_strlen(str);
-// 	if (str[len - 1] == ',')
-// 		color = ft_strtrim(str, ",");
-// 	if (str[len - 1] == '\n')
-// 		color = ft_strtrim(str, "\n");
-// 	return (color);
-// }
-
-char	*clean_color(char *str)
+int	len_tab(char **tab)
 {
 	int	i;
-	int	count;
-	char	*color;
 
 	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (ft_isdigit(str[i]) || str[i] == ',')
-			count++;
+	while (tab[i])
 		i++;
-	}
-	color = (char *)ft_calloc(count + 1, sizeof(char));
+	return (i);
+}
+
+int	*fill_color_array(char **tab)
+{
+	int	*color;
+	int	len;
+	int	i;
+
+	len = len_tab(tab);
+	if (len != 3)
+		return (NULL);
+	color = (int *)ft_calloc(len + 1, sizeof(int));
 	if (!color)
-		return (NULL);
-	i = 0;
-	count = 0;
-	while (str[i])
 	{
-		if (ft_isdigit(str[i]) || str[i] == ',')
-		{
-			color[count] = str[i];
-			i++;
-			count++;		
-		}
-		else
-			i++;
-	}
-	if (ft_strlen(color) < 1)
-	{
-		free(color);
+		free_tab(tab);
 		return (NULL);
 	}
+	i = -1;
+	while (tab[++i])
+		color[i] = ft_atoi(tab[i]);
 	return (color);
 }
 
@@ -154,14 +80,12 @@ int	*parse_color_array(char *line)
 {
 	char	**tab;
 	int		*color;
-	int		i;
 	char	*clean;
 
 	line = tab_to_space(line);
 	clean = clean_color(line);
 	if (!clean)
 		return (NULL);
-	// printf("clean_line: [%s]\n", clean);
 	tab = ft_split(clean, ',');
 	if (!tab)
 	{
@@ -169,21 +93,9 @@ int	*parse_color_array(char *line)
 		return (NULL);
 	}
 	free(clean);
-	color = (int *)ft_calloc(4, sizeof(int));
+	color = fill_color_array(tab);
 	if (!color)
-	{
-		free (clean);
-		free_tab(tab);
 		return (NULL);
-	}
-	i = -1;
-	while (tab[++i])
-	{
-		// if (check_number(tab[i]))
-		// 	return (NULL);
-		color[i] = ft_atoi(tab[i]);
-		// printf("color[%d]: %d\n", i, color[i]);
-	}
 	free_tab(tab);
 	return (color);
 }

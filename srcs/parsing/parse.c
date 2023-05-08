@@ -6,17 +6,26 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:49:18 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/03 12:35:41 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 12:34:22 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "parsing.h"
 
-void	error_control(char *msj)
+int	aux_check_content(int count)
 {
-	write(1, "Error\n", 6);
-	ft_putstr_fd(msj, 1);
+	if (count > 1)
+	{
+		error_control("Only 1 initial position\n");
+		return (1);
+	}
+	if (count == 0)
+	{
+		error_control("You need an initial position: N-W-E-S\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	check_content(char *str_map)
@@ -40,20 +49,11 @@ int	check_content(char *str_map)
 		else
 		{
 			error_control("Your map has a wrong character\n");
-			// printf("CHAR: %c\n", str_map[i]);
 			return (1);
 		}
 	}
-	if (count > 1)
-	{
-		error_control("Only 1 initial position\n");
+	if (aux_check_content(count))
 		return (1);
-	}
-	if (count == 0)
-	{
-		error_control("You need an initial position: N-W-E-S\n");
-		return (1);
-	}
 	return (0);
 }
 
@@ -75,44 +75,27 @@ int	check_textures(t_map *map)
 		error_control("Texture error or missing\n");
 		return (1);
 	}
-	// if (open_close(map->tex_ea) || open_close(map->tex_no)
-	// 	|| open_close(map->tex_so) || open_close(map->tex_we))
-	// {
-	// 	error_control("Can't open file\n");
-	// 	return (1);
-	// }
-	return (0);
-}
-
-void	save_ini_pos(t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < map->nb_rows)
+	if (open_close(map->tex_ea) || open_close(map->tex_no)
+		|| open_close(map->tex_so) || open_close(map->tex_we))
 	{
-		j = 0;
-		while (j < map->nb_cols)
-		{
-			if (map->mtx[i][j] == 'N' || map->mtx[i][j] == 'S'
-				|| map->mtx[i][j] == 'E' || map->mtx[i][j] == 'W')
-			{
-				map->view = map->mtx[i][j];
-				map->px = j;
-				map->py = i;
-			}
-			j++;
-		}
-		i++;
+		error_control("Can't open texture\n");
+		return (1);
 	}
+	return (0);
 }
 
 int	parse(char *path, t_map *map)
 {
-	map->str_map = read_file(path, map);
-	if (!map->str_map)
+	map->str_map = NULL;
+	map->nb_cols = 0;
+	map->nb_rows = 0;
+	if (read_file(path, map))
 		return (1);
+	if (!map->str_map)
+	{
+		error_control("No map in the file\n");
+		return (1);
+	}
 	if (!map->color_c || !map->color_f)
 	{
 		error_control("Missing color\n");
@@ -124,6 +107,8 @@ int	parse(char *path, t_map *map)
 		return (1);
 	if (fill_map(map))
 		return (1);
-	save_ini_pos(map);
+	if (save_ini_pos(map))
+	if (check_round_2(map->mtx, map->py, map->px))
+		return (1);
 	return (0);
 }
