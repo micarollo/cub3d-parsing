@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 19:30:20 by anarebelo         #+#    #+#             */
-/*   Updated: 2023/04/19 16:27:10 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 16:44:44 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_map
 	int			px;
 	int			py;
 	char		view;
+	int			mp;
 
 	int			nb_cols;
 	int			nb_rows;

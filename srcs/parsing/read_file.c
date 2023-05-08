@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:55:52 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/08 16:11:03 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 16:50:35 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,14 @@ static int	check_line(char *line, t_map *map)
 
 	i = 0;
 	if (!ft_isspace(line))
+	{
+		if (map->mp == 1)
+		{
+			error_control("Invalid map\n");
+			return (2);
+		}
 		return (1);
+	}
 	while (line[i])
 	{
 		while (line[i] == ' ' || line[i] == '\t')
@@ -95,6 +102,7 @@ static int	checking(char *line, t_map *map)
 	}
 	else
 	{
+		map->mp = 1;
 		len = ft_strlen(line) - 1;
 		if (len > map->nb_cols)
 			map->nb_cols = len;
@@ -116,6 +124,7 @@ int	read_file(char *path, t_map *map)
 		return (1);
 	line = NULL;
 	exit = 0;
+	map->mp = 0;
 	while (!exit)
 	{
 		line = get_next_line(fd);
