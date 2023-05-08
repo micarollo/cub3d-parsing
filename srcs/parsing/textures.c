@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 19:16:16 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/08 12:10:45 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 13:54:49 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,31 @@ char	*tab_to_space(char *str)
 	return (str);
 }
 
+int	tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+int	tex_len_check(char **tab)
+{
+	int	len;
+
+	len = tab_len(tab);
+	if (len > 2)
+	{
+		if ((ft_strcmp(tab[2], "\n") == 0) && (len == 3))
+			return (0);
+		error_control("Texture usage: <NO/SO/EA/WE ./path>\n");
+		return (1);
+	}
+	return (0);
+}
+
 char	*tex_parse(char *str)
 {
 	char	**tab;
@@ -35,10 +60,13 @@ char	*tex_parse(char *str)
 	tab = ft_split(str, ' ');
 	if (!tab)
 		return (NULL);
+	if (tex_len_check(tab))
+		return (NULL);
 	new = ft_strtrim(tab[1], "\n");
 	if (!new)
 	{
 		free_tab(tab);
+		error_control("Texture error\n");
 		return (NULL);
 	}
 	free_tab(tab);

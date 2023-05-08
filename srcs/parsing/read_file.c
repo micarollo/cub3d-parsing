@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:55:52 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/08 12:10:37 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/08 13:09:01 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,28 @@
 #include "parsing.h"
 #include "utils.h"
 
-void	tex_parse_aux(char a, char b, char *line, t_map *map)
+int	tex_parse_aux(char a, char b, char *line, t_map *map)
 {
+	char	*texture;
+
+	texture = tex_parse(line);
+	if (!texture)
+	{
+		return (2);
+	}
 	if (a == 'N' && b == 'O')
-		map->tex_no = tex_parse(line);
+		// map->tex_no = tex_parse(line);
+		map->tex_no = texture;
 	if (a == 'S' && b == 'O')
-		map->tex_so = tex_parse(line);
+		// map->tex_so = tex_parse(line);
+		map->tex_so = texture;
 	if (a == 'E' && b == 'A')
-		map->tex_ea = tex_parse(line);
+		// map->tex_ea = tex_parse(line);
+		map->tex_ea = texture;
 	if (a == 'W' && b == 'E')
-		map->tex_we = tex_parse(line);
+		// map->tex_we = tex_parse(line);
+		map->tex_we = texture;
+	return (0);
 }
 
 int	aux_check_line(char a, char b, char *line, t_map *map)
@@ -32,7 +44,8 @@ int	aux_check_line(char a, char b, char *line, t_map *map)
 	if ((a == 'N' && b == 'O') || (a == 'S' && b == 'O')
 		|| (a == 'E' && b == 'A') || (a == 'W' && b == 'E'))
 	{
-		tex_parse_aux(a, b, line, map);
+		if (tex_parse_aux(a, b, line, map))
+			return (2);
 		return (1);
 	}
 	if (a == 'C' || a == 'F')
