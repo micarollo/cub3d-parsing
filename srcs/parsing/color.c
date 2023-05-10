@@ -6,7 +6,7 @@
 /*   By: mrollo <mrollo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:44:32 by mrollo            #+#    #+#             */
-/*   Updated: 2023/05/08 16:06:51 by mrollo           ###   ########.fr       */
+/*   Updated: 2023/05/10 14:30:30 by mrollo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ static int	*fill_color_array(char **tab)
 	return (color);
 }
 
+int	p_color_check(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ',' && line[i + 1] == ',')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static int	*parse_color_array(char *line)
 {
 	char	**tab;
@@ -56,6 +70,8 @@ static int	*parse_color_array(char *line)
 	char	*clean;
 
 	line = tab_to_space(line);
+	if (p_color_check(line))
+		return (NULL);
 	clean = clean_color(line);
 	if (!clean)
 		return (NULL);
